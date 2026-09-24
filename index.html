@@ -1,0 +1,953 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<title>WebTools Pro — ابزارهای آنلاین برنامه‌نویسی</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --bg:#070b16;
+ --panel:#0e1424;
+ --panel2:#121a2d;
+ --border:#202b43;
+ --text:#f4f7ff;
+ --muted:#8d99b5;
+ --primary:#6c63ff;
+ --primary2:#8b5cf6;
+ --success:#22c55e;
+ --danger:#ef4444;
+ --shadow:0 20px 60px rgba(0,0,0,.25);
+}
+.light{
+ --bg:#f4f7fb;
+ --panel:#fff;
+ --panel2:#f1f4f9;
+ --border:#dce2ed;
+ --text:#172033;
+ --muted:#68748b;
+ --shadow:0 15px 40px rgba(30,50,90,.1);
+}
+body{
+ font-family:Tahoma,Arial,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ min-height:100vh;
+ transition:.25s;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+
+header{
+ position:sticky;
+ top:0;
+ z-index:50;
+ height:70px;
+ background:rgba(7,11,22,.88);
+ backdrop-filter:blur(18px);
+ border-bottom:1px solid var(--border);
+}
+.light header{background:rgba(255,255,255,.88)}
+
+.nav{
+ max-width:1250px;
+ height:100%;
+ margin:auto;
+ padding:0 20px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:20px;
+}
+.logo{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-weight:900;
+ font-size:20px;
+}
+.logoIcon{
+ width:38px;height:38px;
+ border-radius:11px;
+ display:grid;place-items:center;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ box-shadow:0 8px 25px rgba(108,99,255,.3);
+}
+.navActions{display:flex;gap:9px}
+.iconBtn{
+ width:42px;height:42px;
+ border:1px solid var(--border);
+ background:var(--panel);
+ color:var(--text);
+ border-radius:11px;
+}
+.iconBtn:hover{border-color:var(--primary);color:var(--primary)}
+
+.hero{
+ max-width:1100px;
+ margin:auto;
+ padding:75px 20px 55px;
+ text-align:center;
+}
+.badge{
+ display:inline-flex;
+ padding:8px 14px;
+ border:1px solid #38316e;
+ border-radius:30px;
+ background:rgba(108,99,255,.1);
+ color:#a9a3ff;
+ font-size:13px;
+ margin-bottom:22px;
+}
+.hero h1{
+ font-size:clamp(35px,6vw,68px);
+ line-height:1.12;
+ font-weight:950;
+ letter-spacing:-2px;
+}
+.gradient{
+ background:linear-gradient(90deg,#8b5cf6,#5ee7df);
+ -webkit-background-clip:text;
+ background-clip:text;
+ color:transparent;
+}
+.hero p{
+ max-width:700px;
+ margin:20px auto 0;
+ color:var(--muted);
+ font-size:17px;
+ line-height:2;
+}
+.searchBox{
+ max-width:720px;
+ margin:32px auto 0;
+ position:relative;
+}
+.searchBox input{
+ width:100%;
+ padding:18px 55px 18px 20px;
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:16px;
+ color:var(--text);
+ outline:none;
+ box-shadow:var(--shadow);
+}
+.searchBox input:focus{border-color:var(--primary)}
+.searchIcon{
+ position:absolute;
+ right:19px;
+ top:17px;
+ font-size:21px;
+}
+
+.stats{
+ max-width:1000px;
+ margin:0 auto 30px;
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:15px;
+ padding:0 20px;
+}
+.stat{
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:20px;
+ text-align:center;
+}
+.stat strong{display:block;font-size:27px}
+.stat span{font-size:12px;color:var(--muted)}
+
+.layout{
+ max-width:1250px;
+ margin:auto;
+ padding:20px;
+ display:grid;
+ grid-template-columns:220px 1fr;
+ gap:22px;
+}
+.sidebar{
+ position:sticky;
+ top:90px;
+ height:max-content;
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:15px;
+}
+.sideTitle{
+ font-size:12px;
+ color:var(--muted);
+ margin:7px 10px 12px;
+}
+.category{
+ width:100%;
+ border:0;
+ background:transparent;
+ color:var(--muted);
+ padding:12px;
+ border-radius:11px;
+ text-align:right;
+ margin-bottom:3px;
+}
+.category:hover,.category.active{
+ background:rgba(108,99,255,.12);
+ color:var(--text);
+}
+.category.active{color:#9b95ff}
+
+.toolsGrid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:16px;
+}
+.tool{
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:20px;
+ transition:.2s;
+}
+.tool:hover{
+ transform:translateY(-4px);
+ border-color:rgba(108,99,255,.6);
+ box-shadow:var(--shadow);
+}
+.toolIcon{
+ width:48px;height:48px;
+ display:grid;place-items:center;
+ border-radius:13px;
+ background:rgba(108,99,255,.12);
+ font-size:23px;
+ margin-bottom:15px;
+}
+.tool h3{font-size:16px;margin-bottom:8px}
+.tool p{
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.8;
+ min-height:43px;
+}
+.toolBottom{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-top:18px;
+}
+.tag{
+ color:#8f88ff;
+ font-size:10px;
+}
+.openBtn{
+ border:0;
+ background:var(--primary);
+ color:#fff;
+ padding:9px 13px;
+ border-radius:9px;
+ font-size:12px;
+}
+.openBtn:hover{filter:brightness(1.15)}
+
+.empty{
+ grid-column:1/-1;
+ text-align:center;
+ padding:60px;
+ color:var(--muted);
+ display:none;
+}
+
+.modal{
+ position:fixed;
+ inset:0;
+ z-index:100;
+ background:rgba(0,0,0,.7);
+ backdrop-filter:blur(8px);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+.modal.show{display:flex}
+.modalBox{
+ width:min(850px,100%);
+ max-height:90vh;
+ overflow:auto;
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:22px;
+ box-shadow:0 30px 100px rgba(0,0,0,.45);
+}
+.modalHead{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:20px 22px;
+ border-bottom:1px solid var(--border);
+}
+.close{
+ border:0;
+ background:transparent;
+ color:var(--muted);
+ font-size:24px;
+}
+.modalBody{padding:22px}
+.field{margin-bottom:15px}
+.field label{
+ display:block;
+ font-size:12px;
+ color:var(--muted);
+ margin-bottom:8px;
+}
+textarea,input,select{
+ width:100%;
+ border:1px solid var(--border);
+ background:var(--panel2);
+ color:var(--text);
+ border-radius:12px;
+ padding:13px;
+ outline:none;
+}
+textarea{min-height:170px;resize:vertical}
+textarea:focus,input:focus,select:focus{border-color:var(--primary)}
+.row{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:12px;
+}
+.actionRow{
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-top:14px;
+}
+.primary{
+ border:0;
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:#fff;
+ padding:12px 18px;
+ border-radius:11px;
+}
+.secondary{
+ border:1px solid var(--border);
+ background:var(--panel2);
+ color:var(--text);
+ padding:12px 18px;
+ border-radius:11px;
+}
+.output{
+ margin-top:15px;
+ padding:15px;
+ background:#070b14;
+ color:#d8e0f2;
+ border:1px solid var(--border);
+ border-radius:12px;
+ white-space:pre-wrap;
+ word-break:break-word;
+ direction:ltr;
+ text-align:left;
+ min-height:100px;
+ font-family:Consolas,monospace;
+ font-size:13px;
+}
+.toolHint{
+ padding:12px;
+ border-radius:10px;
+ background:rgba(34,197,94,.08);
+ color:#65d98a;
+ font-size:12px;
+ margin-bottom:15px;
+}
+.proBox{
+ margin-top:55px;
+ padding:45px 25px;
+ border:1px solid #40368d;
+ border-radius:25px;
+ background:
+ radial-gradient(circle at top right,rgba(108,99,255,.2),transparent 35%),
+ var(--panel);
+ text-align:center;
+}
+.proBox h2{font-size:30px;margin-bottom:10px}
+.proBox p{color:var(--muted);line-height:2}
+.proFeatures{
+ display:flex;
+ justify-content:center;
+ flex-wrap:wrap;
+ gap:10px;
+ margin:20px 0;
+}
+.proFeatures span{
+ padding:9px 13px;
+ border-radius:9px;
+ background:var(--panel2);
+ font-size:12px;
+}
+footer{
+ max-width:1250px;
+ margin:60px auto 0;
+ padding:25px 20px 45px;
+ color:var(--muted);
+ font-size:12px;
+ text-align:center;
+ border-top:1px solid var(--border);
+}
+
+.toast{
+ position:fixed;
+ left:20px;
+ bottom:20px;
+ z-index:200;
+ padding:14px 18px;
+ background:var(--panel);
+ border:1px solid var(--border);
+ border-radius:12px;
+ box-shadow:var(--shadow);
+ transform:translateY(100px);
+ opacity:0;
+ transition:.3s;
+}
+.toast.show{transform:none;opacity:1}
+
+@media(max-width:950px){
+ .toolsGrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:720px){
+ .layout{grid-template-columns:1fr}
+ .sidebar{position:static}
+ .toolsGrid{grid-template-columns:1fr}
+ .stats{grid-template-columns:1fr}
+ .hero{padding-top:45px}
+ .row{grid-template-columns:1fr}
+ .nav{padding:0 12px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="nav">
+ <div class="logo">
+  <div class="logoIcon">{ }</div>
+  WebTools <span class="gradient">Pro</span>
+ </div>
+ <div class="navActions">
+  <button class="iconBtn" id="historyBtn" title="History">↶</button>
+  <button class="iconBtn" id="themeBtn" title="تغییر حالت">☀️</button>
+ </div>
+</div>
+</header>
+
+<section class="hero">
+ <div class="badge">⚡ ابزارهای سریع برای Developers</div>
+ <h1>هر چیزی که برای کدنویسی<br><span class="gradient">لازم داری، یکجا</span></h1>
+ <p>
+ مجموعه‌ای از ابزارهای رایگان برای برنامه‌نویس‌ها، طراحان سایت و توسعه‌دهندگان.
+ بدون نصب نرم‌افزار و بدون نیاز به API.
+ </p>
+
+ <div class="searchBox">
+  <span class="searchIcon">⌕</span>
+  <input id="search" placeholder="جستجوی ابزار... مثلا JSON یا Base64">
+ </div>
+</section>
+
+<section class="stats">
+ <div class="stat"><strong>20+</strong><span>ابزار کاربردی</span></div>
+ <div class="stat"><strong>100%</strong><span>رایگان و Client-side</span></div>
+ <div class="stat"><strong>0ms</strong><span>نیاز به سرور برای ابزارها</span></div>
+</section>
+
+<div class="layout">
+
+<aside class="sidebar">
+ <div class="sideTitle">دسته‌بندی</div>
+ <button class="category active" data-cat="all">✨ همه ابزارها</button>
+ <button class="category" data-cat="json">{} JSON / Data</button>
+ <button class="category" data-cat="encoding">🔐 Encoding</button>
+ <button class="category" data-cat="developer">💻 Developer</button>
+ <button class="category" data-cat="text">📝 Text</button>
+ <button class="category" data-cat="generator">⚙️ Generators</button>
+</aside>
+
+<main>
+<div class="toolsGrid" id="toolsGrid"></div>
+<div class="empty" id="empty">ابزاری با این مشخصات پیدا نشد.</div>
+
+<section class="proBox">
+ <h2>🚀 WebTools Pro</h2>
+ <p>
+ نسخه رایگان شروع کار است. در آینده می‌توانیم امکانات حرفه‌ای،
+ حساب کاربری و اشتراک ماهانه را اضافه کنیم.
+ </p>
+ <div class="proFeatures">
+  <span>☁️ Cloud History</span>
+  <span>👤 User Account</span>
+  <span>📁 Workspaces</span>
+  <span>🔌 API Tester</span>
+  <span>📊 Analytics</span>
+  <span>🚫 No Ads</span>
+ </div>
+ <button class="primary" onclick="showToast('امکانات Pro در نسخه بعدی فعال می‌شوند')">
+ شروع رایگان
+ </button>
+</section>
+</main>
+</div>
+
+<footer>
+ WebTools Pro © 2026 — ساخته شده برای Developerها
+</footer>
+
+<div class="modal" id="modal">
+ <div class="modalBox">
+  <div class="modalHead">
+   <strong id="modalTitle">Tool</strong>
+   <button class="close" onclick="closeModal()">×</button>
+  </div>
+  <div class="modalBody" id="modalBody"></div>
+ </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const tools=[
+ {id:"json",icon:"{}",name:"JSON Formatter",cat:"json",desc:"مرتب‌سازی، اعتبارسنجی و زیباسازی JSON"},
+ {id:"json2ts",icon:"TS",name:"JSON → TypeScript",cat:"json",desc:"تبدیل JSON به Interface تایپ‌اسکریپت"},
+ {id:"jsonmin",icon:"{ }",name:"JSON Minifier",cat:"json",desc:"کم کردن حجم JSON و حذف فاصله‌های اضافی"},
+ {id:"base64",icon:"🔐",name:"Base64 Encoder",cat:"encoding",desc:"Encode و Decode کردن متن با Base64"},
+ {id:"url",icon:"🔗",name:"URL Encoder",cat:"encoding",desc:"Encode و Decode کردن URL و Query String"},
+ {id:"jwt",icon:"🎫",name:"JWT Decoder",cat:"encoding",desc:"مشاهده Header و Payload توکن JWT"},
+ {id:"hash",icon:"#",name:"Hash Generator",cat:"encoding",desc:"ساخت SHA-256 و SHA-1 Hash"},
+ {id:"uuid",icon:"🆔",name:"UUID Generator",cat:"generator",desc:"ساخت UUID تصادفی برای پروژه‌ها"},
+ {id:"password",icon:"🔑",name:"Password Generator",cat:"generator",desc:"ساخت رمز عبور امن و تصادفی"},
+ {id:"lorem",icon:"Aa",name:"Lorem Ipsum",cat:"text",desc:"ساخت متن آزمایشی برای طراحی"},
+ {id:"counter",icon:"123",name:"Text Counter",cat:"text",desc:"شمارش حروف، کلمات و خطوط متن"},
+ {id:"case",icon:"Aa",name:"Case Converter",cat:"text",desc:"تبدیل متن به UPPER / lower / Title"},
+ {id:"regex",icon:".*",name:"Regex Tester",cat:"developer",desc:"تست Regular Expression روی متن"},
+ {id:"timestamp",icon:"⏱",name:"Timestamp",cat:"developer",desc:"تبدیل Unix Timestamp به تاریخ"},
+ {id:"color",icon:"🎨",name:"Color Converter",cat:"developer",desc:"تبدیل HEX / RGB"},
+ {id:"html",icon:"<>",name:"HTML Encoder",cat:"developer",desc:"Encode و Decode کردن HTML"},
+ {id:"markdown",icon:"M",name:"Markdown Preview",cat:"text",desc:"پیش‌نمایش سریع Markdown"},
+ {id:"sql",icon:"SQL",name:"SQL Formatter",cat:"developer",desc:"مرتب‌سازی ساده دستورات SQL"},
+ {id:"cron",icon:"⏰",name:"Cron Generator",cat:"generator",desc:"ساخت عبارت Cron برای زمان‌بندی"},
+ {id:"random",icon:"🎲",name:"Random Generator",cat:"generator",desc:"ساخت عدد تصادفی و رشته تصادفی"}
+];
+
+const grid=document.getElementById("toolsGrid");
+
+function render(list=tools){
+ grid.innerHTML="";
+ document.getElementById("empty").style.display=list.length?"none":"block";
+
+ list.forEach(t=>{
+  const el=document.createElement("article");
+  el.className="tool";
+  el.innerHTML=`
+   <div class="toolIcon">${t.icon}</div>
+   <h3>${t.name}</h3>
+   <p>${t.desc}</p>
+   <div class="toolBottom">
+    <span class="tag">${categoryName(t.cat)}</span>
+    <button class="openBtn" onclick="openTool('${t.id}')">باز کردن ←</button>
+   </div>`;
+  grid.appendChild(el);
+ });
+}
+
+function categoryName(c){
+ return {
+  json:"JSON",
+  encoding:"Encoding",
+  developer:"Developer",
+  text:"Text",
+  generator:"Generator"
+ }[c]||"Tool";
+}
+
+render();
+
+document.querySelectorAll(".category").forEach(btn=>{
+ btn.onclick=()=>{
+  document.querySelectorAll(".category").forEach(x=>x.classList.remove("active"));
+  btn.classList.add("active");
+  const cat=btn.dataset.cat;
+  render(cat==="all"?tools:tools.filter(t=>t.cat===cat));
+ };
+});
+
+document.getElementById("search").oninput=e=>{
+ const q=e.target.value.toLowerCase().trim();
+ render(tools.filter(t=>
+  t.name.toLowerCase().includes(q)||
+  t.desc.toLowerCase().includes(q)||
+  t.cat.toLowerCase().includes(q)
+ ));
+};
+
+function openTool(id){
+ const t=tools.find(x=>x.id===id);
+ document.getElementById("modalTitle").innerText=t.icon+"  "+t.name;
+ document.getElementById("modalBody").innerHTML=toolHTML(id);
+ document.getElementById("modal").classList.add("show");
+}
+
+function closeModal(){
+ document.getElementById("modal").classList.remove("show");
+}
+
+document.getElementById("modal").onclick=e=>{
+ if(e.target.id==="modal")closeModal();
+};
+
+function toolHTML(id){
+
+if(id==="json")return `
+<div class="toolHint">JSON خود را وارد کنید. ابزار آن را بررسی و مرتب می‌کند.</div>
+<div class="field"><label>JSON</label><textarea id="input" placeholder='{"name":"Mobin","age":16}'></textarea></div>
+<div class="actionRow"><button class="primary" onclick="jsonFormat()">Format JSON</button><button class="secondary" onclick="copyOutput()">Copy</button></div>
+<div class="output" id="output">نتیجه اینجا نمایش داده می‌شود...</div>`;
+
+if(id==="jsonmin")return `
+<div class="field"><label>JSON</label><textarea id="input" placeholder='{"name":"Mobin","age":16}'></textarea></div>
+<div class="actionRow"><button class="primary" onclick="jsonMin()">Minify</button><button class="secondary" onclick="copyOutput()">Copy</button></div>
+<div class="output" id="output"></div>`;
+
+if(id==="json2ts")return `
+<div class="field"><label>JSON</label><textarea id="input" placeholder='{"name":"Mobin","age":16,"active":true}'></textarea></div>
+<div class="actionRow"><button class="primary" onclick="jsonToTS()">Convert</button><button class="secondary" onclick="copyOutput()">Copy</button></div>
+<div class="output" id="output"></div>`;
+
+if(id==="base64")return `
+<div class="field"><label>متن</label><textarea id="input" placeholder="Hello World"></textarea></div>
+<div class="actionRow">
+<button class="primary" onclick="base64Encode()">Encode</button>
+<button class="secondary" onclick="base64Decode()">Decode</button>
+</div>
+<div class="output" id="output"></div>`;
+
+if(id==="url")return `
+<div class="field"><label>متن یا URL</label><textarea id="input"></textarea></div>
+<div class="actionRow">
+<button class="primary" onclick="urlEncode()">Encode</button>
+<button class="secondary" onclick="urlDecode()">Decode</button>
+</div>
+<div class="output" id="output"></div>`;
+
+if(id==="jwt")return `
+<div class="field"><label>JWT Token</label><textarea id="input" placeholder="eyJhbGciOiJIUzI1NiJ9..."></textarea></div>
+<div class="actionRow"><button class="primary" onclick="jwtDecode()">Decode</button></div>
+<div class="output" id="output"></div>`;
+
+if(id==="hash")return `
+<div class="field"><label>Text</label><textarea id="input"></textarea></div>
+<div class="actionRow"><button class="primary" onclick="hashText()">SHA-256</button></div>
+<div class="output" id="output"></div>`;
+
+if(id==="uuid")return `
+<div class="toolHint">UUID با استفاده از crypto.randomUUID ساخته می‌شود.</div>
+<div class="actionRow"><button class="primary" onclick="uuidGen()">Generate UUID</button><button class="secondary" onclick="copyOutput()">Copy</button></div>
+<div class="output" id="output"></div>`;
+
+if(id==="password")return `
+<div class="row">
+<div class="field"><label>طول رمز</label><input id="length" type="number" value="18" min="4" max="128"></div>
+<div class="field"><label>نوع</label><select id="passType"><option value="all">همه کاراکترها</option><option value="letters">حروف</option><option value="numbers">اعداد</option></select></div>
+</div>
+<div class="actionRow"><button class="primary" onclick="passwordGen()">Generate</button><button class="secondary" onclick="copyOutput()">Copy</button></div>
+<div class="output" id="output"></div>`;
+
+if(id==="lorem")return `
+<div class="row">
+<div class="field"><label>تعداد پاراگراف</label><input id="count" type="number" value="3" min="1" max="20"></div>
+</div>
+<button class="primary" onclick="loremGen()">Generate</button>
+<div class="output" id="output"></div>`;
+
+if(id==="counter")return `
+<div class="field"><label>متن</label><textarea id="input" oninput="countText()"></textarea></div>
+<div class="output" id="output">Characters: 0
+Words: 0
+Lines: 0</div>`;
+
+if(id==="case")return `
+<div class="field"><label>متن</label><textarea id="input"></textarea></div>
+<div class="actionRow">
+<button class="primary" onclick="convertCase('upper')">UPPERCASE</button>
+<button class="secondary" onclick="convertCase('lower')">lowercase</button>
+<button class="secondary" onclick="convertCase('title')">Title Case</button>
+</div>
+<div class="output" id="output"></div>`;
+
+if(id==="regex")return `
+<div class="field"><label>Regex</label><input id="regex" placeholder="^[a-z]+$"></div>
+<div class="field"><label>Text</label><textarea id="input"></textarea></div>
+<button class="primary" onclick="regexTest()">Test</button>
+<div class="output" id="output"></div>`;
+
+if(id==="timestamp")return `
+<div class="field"><label>Unix Timestamp</label><input id="input" placeholder="1760000000"></div>
+<div class="actionRow">
+<button class="primary" onclick="timestampToDate()">Timestamp → Date</button>
+<button class="secondary" onclick="dateToTimestamp()">Now → Timestamp</button>
+</div>
+<div class="output" id="output"></div>`;
+
+if(id==="color")return `
+<div class="field"><label>HEX</label><input id="input" placeholder="#6c63ff"></div>
+<button class="primary" onclick="colorConvert()">Convert</button>
+<div class="output" id="output"></div>`;
+
+if(id==="html")return `
+<div class="field"><label>HTML / Text</label><textarea id="input"></textarea></div>
+<div class="actionRow">
+<button class="primary" onclick="htmlEncode()">Encode</button>
+<button class="secondary" onclick="htmlDecode()">Decode</button>
+</div>
+<div class="output" id="output"></div>`;
+
+if(id==="markdown")return `
+<div class="field"><label>Markdown</label><textarea id="input" placeholder="# Hello"></textarea></div>
+<button class="primary" onclick="markdownPreview()">Preview</button>
+<div class="output" id="output"></div>`;
+
+if(id==="sql")return `
+<div class="field"><label>SQL</label><textarea id="input" placeholder="SELECT * FROM users WHERE id=1"></textarea></div>
+<button class="primary" onclick="sqlFormat()">Format</button>
+<div class="output" id="output"></div>`;
+
+if(id==="cron")return `
+<div class="row">
+<div class="field"><label>Minute</label><input id="minute" value="0"></div>
+<div class="field"><label>Hour</label><input id="hour" value="*"></div>
+<div class="field"><label>Day</label><input id="day" value="*"></div>
+<div class="field"><label>Month</label><input id="month" value="*"></div>
+</div>
+<div class="field"><label>Weekday</label><input id="weekday" value="*"></div>
+<button class="primary" onclick="cronGen()">Generate</button>
+<div class="output" id="output"></div>`;
+
+if(id==="random")return `
+<div class="row">
+<div class="field"><label>Minimum</label><input id="min" type="number" value="1"></div>
+<div class="field"><label>Maximum</label><input id="max" type="number" value="100"></div>
+</div>
+<button class="primary" onclick="randomGen()">Generate</button>
+<div class="output" id="output"></div>`;
+}
+
+function setOut(v){
+ const o=document.getElementById("output");
+ if(o)o.textContent=v;
+ saveHistory(v);
+}
+
+function saveHistory(v){
+ if(!v)return;
+ let h=JSON.parse(localStorage.getItem("wt-history")||"[]");
+ h.unshift({text:String(v).slice(0,500),date:new Date().toLocaleString("fa-IR")});
+ h=h.slice(0,20);
+ localStorage.setItem("wt-history",JSON.stringify(h));
+}
+
+function jsonFormat(){
+ try{setOut(JSON.stringify(JSON.parse(input.value),null,2))}
+ catch(e){setOut("❌ Invalid JSON\n"+e.message)}
+}
+
+function jsonMin(){
+ try{setOut(JSON.stringify(JSON.parse(input.value)))}
+ catch(e){setOut("❌ Invalid JSON\n"+e.message)}
+}
+
+function jsonToTS(){
+ try{
+  const data=JSON.parse(input.value);
+  let out="interface Root {\\n";
+  for(const [k,v] of Object.entries(data)){
+   let type=Array.isArray(v)?"any[]":typeof v;
+   if(v===null)type="any";
+   out+=`  ${k}: ${type};\\n`;
+  }
+  out+="}";
+  setOut(out);
+ }catch(e){setOut("❌ Invalid JSON")}
+}
+
+function base64Encode(){
+ try{setOut(btoa(unescape(encodeURIComponent(input.value))))}
+ catch(e){setOut("Error")}
+}
+function base64Decode(){
+ try{setOut(decodeURIComponent(escape(atob(input.value))))}
+ catch(e){setOut("❌ Invalid Base64")}
+}
+
+function urlEncode(){setOut(encodeURIComponent(input.value))}
+function urlDecode(){
+ try{setOut(decodeURIComponent(input.value))}
+ catch(e){setOut("❌ Invalid URL encoding")}
+}
+
+function jwtDecode(){
+ try{
+  const p=input.value.split(".")[1];
+  setOut(JSON.stringify(JSON.parse(atob(p.replace(/-/g,"+").replace(/_/g,"/"))),null,2));
+ }catch(e){setOut("❌ Invalid JWT")}
+}
+
+async function hashText(){
+ const data=new TextEncoder().encode(input.value);
+ const hash=await crypto.subtle.digest("SHA-256",data);
+ setOut([...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,"0")).join(""));
+}
+
+function uuidGen(){setOut(crypto.randomUUID())}
+
+function passwordGen(){
+ const len=Number(document.getElementById("length").value)||18;
+ const type=document.getElementById("passType").value;
+ let chars="";
+ if(type==="all")chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_-+=";
+ if(type==="letters")chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+ if(type==="numbers")chars="0123456789";
+ let r="";
+ for(let i=0;i<len;i++)r+=chars[Math.floor(Math.random()*chars.length)];
+ setOut(r);
+}
+
+function loremGen(){
+ const n=Number(document.getElementById("count").value)||3;
+ const base="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer feugiat, sapien vitae tincidunt cursus, neque lacus posuere erat, vitae vulputate justo nisl sed massa.";
+ setOut(Array.from({length:n},()=>base).join("\\n\\n"));
+}
+
+function countText(){
+ const v=input.value;
+ const words=v.trim()?v.trim().split(/\\s+/).length:0;
+ setOut(`Characters: ${v.length}\\nWords: ${words}\\nLines: ${v? v.split("\\n").length:0}`);
+}
+
+function convertCase(type){
+ let v=input.value;
+ if(type==="upper")setOut(v.toUpperCase());
+ if(type==="lower")setOut(v.toLowerCase());
+ if(type==="title")setOut(v.toLowerCase().replace(/\\b\\w/g,c=>c.toUpperCase()));
+}
+
+function regexTest(){
+ try{
+  const r=new RegExp(document.getElementById("regex").value,"g");
+  const matches=[...input.value.matchAll(r)].map(x=>x[0]);
+  setOut(matches.length?`Found ${matches.length} match(es):\\n\\n`+matches.join("\\n"):"No match");
+ }catch(e){setOut("❌ Invalid Regex")}
+}
+
+function timestampToDate(){
+ const n=Number(input.value);
+ if(!n)return setOut("❌ Enter timestamp");
+ setOut(new Date(n<10000000000?n*1000:n).toString());
+}
+
+function dateToTimestamp(){
+ setOut(Math.floor(Date.now()/1000).toString());
+}
+
+function colorConvert(){
+ let h=input.value.trim().replace("#","");
+ if(!/^[0-9a-fA-F]{6}$/.test(h))return setOut("❌ HEX must be 6 characters");
+ const r=parseInt(h.slice(0,2),16);
+ const g=parseInt(h.slice(2,4),16);
+ const b=parseInt(h.slice(4,6),16);
+ setOut(`HEX: #${h.toUpperCase()}\\nRGB: rgb(${r}, ${g}, ${b})\\nCSS: color: #${h};`);
+}
+
+function htmlEncode(){
+ const d=document.createElement("div");
+ d.textContent=input.value;
+ setOut(d.innerHTML);
+}
+function htmlDecode(){
+ const d=document.createElement("textarea");
+ d.innerHTML=input.value;
+ setOut(d.value);
+}
+
+function markdownPreview(){
+ let v=input.value;
+ v=v.replace(/^### (.*)$/gm,"### $1");
+ v=v.replace(/^## (.*)$/gm,"## $1");
+ v=v.replace(/^# (.*)$/gm,"# $1");
+ v=v.replace(/\\*\\*(.*?)\\*\\*/g,"$1");
+ v=v.replace(/\\*(.*?)\\*/g,"$1");
+ setOut(v);
+}
+
+function sqlFormat(){
+ let v=input.value.replace(/\\s+/g," ").trim();
+ v=v.replace(/\\b(FROM|WHERE|GROUP BY|ORDER BY|HAVING|LIMIT|LEFT JOIN|RIGHT JOIN|INNER JOIN|OUTER JOIN|JOIN|VALUES|SET)\\b/gi,"\\n$1");
+ setOut(v);
+}
+
+function cronGen(){
+ setOut(`${minute.value} ${hour.value} ${day.value} ${month.value} ${weekday.value}`);
+}
+
+function randomGen(){
+ const a=Number(document.getElementById("min").value);
+ const b=Number(document.getElementById("max").value);
+ setOut(String(Math.floor(Math.random()*(b-a+1))+a));
+}
+
+function copyOutput(){
+ const v=document.getElementById("output")?.textContent||"";
+ navigator.clipboard.writeText(v);
+ showToast("خروجی کپی شد ✓");
+}
+
+function showToast(msg){
+ const t=document.getElementById("toast");
+ t.textContent=msg;
+ t.classList.add("show");
+ setTimeout(()=>t.classList.remove("show"),2200);
+}
+
+document.getElementById("themeBtn").onclick=()=>{
+ document.body.classList.toggle("light");
+ const light=document.body.classList.contains("light");
+ localStorage.setItem("wt-theme",light?"light":"dark");
+ document.getElementById("themeBtn").textContent=light?"🌙":"☀️";
+};
+
+if(localStorage.getItem("wt-theme")==="light"){
+ document.body.classList.add("light");
+ document.getElementById("themeBtn").textContent="🌙";
+}
+
+document.getElementById("historyBtn").onclick=()=>{
+ const h=JSON.parse(localStorage.getItem("wt-history")||"[]");
+ if(!h.length)return showToast("History خالی است");
+ document.getElementById("modalTitle").textContent="↶ History";
+ document.getElementById("modalBody").innerHTML=`
+  <div class="toolHint">آخرین خروجی‌های استفاده‌شده روی همین مرورگر ذخیره شده‌اند.</div>
+  ${h.map(x=>`<div style="padding:12px;border-bottom:1px solid var(--border)">
+   <small style="color:var(--muted)">${x.date}</small>
+   <div style="margin-top:7px;direction:ltr;text-align:left;white-space:pre-wrap">${escapeHTML(x.text)}</div>
+  </div>`).join("")}
+  <button class="secondary" style="margin-top:15px" onclick="localStorage.removeItem('wt-history');closeModal();showToast('History پاک شد')">پاک کردن History</button>
+ `;
+ document.getElementById("modal").classList.add("show");
+};
+
+function escapeHTML(s){
+ return s.replace(/[&<>"']/g,m=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+ }[m]));
+}
+</script>
+</body>
+</html>
